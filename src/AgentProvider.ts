@@ -529,6 +529,7 @@ const parseOpenCodeStreamLine = (line: string): ParsedStreamEvent[] => {
     // part.state.input. Gate on the completed status so intermediate
     // pending/running states don't surface duplicate tool calls.
     if (obj.type === "tool_use" && part?.type === "tool") {
+      if (typeof part.tool !== "string") return [];
       const state = part.state as
         | { status?: string; input?: Record<string, unknown> }
         | undefined;

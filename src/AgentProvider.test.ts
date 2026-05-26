@@ -1131,6 +1131,19 @@ describe("opencode factory", () => {
     ]);
   });
 
+  it("parseStreamLine skips tool_use with a missing tool name", () => {
+    const provider = opencode("opencode/big-pickle");
+    const line = JSON.stringify({
+      type: "tool_use",
+      sessionID: "ses_abc",
+      part: {
+        type: "tool",
+        state: { status: "completed", input: { command: "npm test" } },
+      },
+    });
+    expect(provider.parseStreamLine(line)).toEqual([]);
+  });
+
   it("parseStreamLine skips tool_use that has not completed", () => {
     const provider = opencode("opencode/big-pickle");
     const line = JSON.stringify({
